@@ -56,12 +56,15 @@ class TicTacToe:
 
     def play(self, p1, p2):
         curr_turn = 'O'
+
         self.print_board_nums()
 
         while self.is_empty:
-            square = p1.get_move() if curr_turn == 'O' else p2.get_move()
+            self.print_board()
 
+            square = p1.get_move(self) if curr_turn == 'O' else p2.get_move(self)
             self.make_move(square, curr_turn)
+            
             self.print_board()
 
             if self.winner:

@@ -7,7 +7,7 @@ Game runner
 
 def main():
     p1 = HumanPlayer('O')
-    p2 = HumanPlayer('X')
+    p2 = AIPlayer('X')
 
     ttt = TicTacToe()
 
