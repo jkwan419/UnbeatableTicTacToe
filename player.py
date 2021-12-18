@@ -42,22 +42,29 @@ class AIPlayer(Player):
         super().__init__(letter)
 
     def get_move(self, game):
-        if game.is_empty():
-            return random.randint(0, 9)
+        if len(game.get_empty_cells()) == 9:
+            return random.randint(0, 8)
         else:
-            return minimax(game, self.letter)["position"]
+            return self.minimax(game, self.letter)["position"]
+
+    def utility(self, state, other_player):
+        if self.letter == other_player:
+            return len(state.get_empty_cells()) + 1
+        else:
+            return -1 * (len(state.get_empty_cells()) + 1)
 
     def minimax(self, state, player):
         other_player = 'O' if player == 'X' else 'X'
 
-        if state.current_winner == other_player:
-            return { "position" : None, "score" : 1 * (state.num_empty_squares() + 1) if other_player == max_player else -1 * (state.num_empty_squares() + 1) }
-        elif not state.is_empty():
+        if state.winner == other_player:
+            sc = self.utility(state, other_player)
+            return { "position" : None, "score" : sc }
+
+        if len(state.get_empty_cells()) == 0:
             return { "position" : None, "score" : 0 }
 
         best_move = { "position" : None, "score" : -math.inf } if self.letter == player else { "position" : None, "score" : math.inf }
 
-        print(state.get_empty_cells())
         for move in state.get_empty_cells():
             state.make_move(move, player)
             sim_score = self.minimax(state, other_player)

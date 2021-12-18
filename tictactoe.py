@@ -20,7 +20,7 @@ class TicTacToe:
             print('| ' + ' | '.join(row) + ' |')
         print()
 
-    def is_empty(self):
+    def has_empty_cells(self):
         return ' ' in self.board
 
     def get_empty_cells(self):
@@ -59,12 +59,16 @@ class TicTacToe:
 
         self.print_board_nums()
 
-        while self.is_empty:
+        while self.has_empty_cells():
             self.print_board()
 
-            square = p1.get_move(self) if curr_turn == 'O' else p2.get_move(self)
+            if curr_turn == 'O':
+                square = p1.get_move(self)
+            else:
+                square = p2.get_move(self)
+
             self.make_move(square, curr_turn)
-            
+
             self.print_board()
 
             if self.winner:
